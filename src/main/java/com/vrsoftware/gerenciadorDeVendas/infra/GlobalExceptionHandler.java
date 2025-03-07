@@ -1,6 +1,7 @@
 package com.vrsoftware.gerenciadorDeVendas.infra;
 
 import com.vrsoftware.gerenciadorDeVendas.exception.ClientNotFoundException;
+import com.vrsoftware.gerenciadorDeVendas.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +14,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ClientNotFoundException.class)
     public ResponseEntity<RestErrorMessage> handleClientNotFound(ClientNotFoundException ex) {
+        RestErrorMessage restErrorMessage = new RestErrorMessage(HttpStatus.NOT_FOUND, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(restErrorMessage);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<RestErrorMessage> handleProductNotFound(ProductNotFoundException ex) {
         RestErrorMessage restErrorMessage = new RestErrorMessage(HttpStatus.NOT_FOUND, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(restErrorMessage);
     }
