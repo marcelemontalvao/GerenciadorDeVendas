@@ -28,5 +28,4 @@ public class ClientEntity {
     @Max(value = 31, message = "O dia não pode ser maior de 31")
     @PositiveOrZero(message = "O limite de compra deve ser zero ou positivo.")
     private Integer diaFechamento;
-
 }
