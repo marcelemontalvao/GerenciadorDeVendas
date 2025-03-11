@@ -1,8 +1,8 @@
 package com.vrsoftware.gerenciadorDeVendas.service;
 
-import com.vrsoftware.gerenciadorDeVendas.dto.SalesItemDTO;
-import com.vrsoftware.gerenciadorDeVendas.dto.SalesRequestDTO;
-import com.vrsoftware.gerenciadorDeVendas.dto.SalesResponseDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.saleItem.SalesItemDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.sale.SalesRequestDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.sale.SalesResponseDTO;
 import com.vrsoftware.gerenciadorDeVendas.entity.ClientEntity;
 import com.vrsoftware.gerenciadorDeVendas.entity.ProductEntity;
 import com.vrsoftware.gerenciadorDeVendas.entity.SalesEntity;

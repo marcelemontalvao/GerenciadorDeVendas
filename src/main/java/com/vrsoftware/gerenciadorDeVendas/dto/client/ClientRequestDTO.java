@@ -1,4 +1,4 @@
-package com.vrsoftware.gerenciadorDeVendas.dto;
+package com.vrsoftware.gerenciadorDeVendas.dto.client;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;

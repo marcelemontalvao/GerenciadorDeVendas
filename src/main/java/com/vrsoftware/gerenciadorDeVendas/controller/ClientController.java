@@ -1,7 +1,7 @@
 package com.vrsoftware.gerenciadorDeVendas.controller;
 
-import com.vrsoftware.gerenciadorDeVendas.dto.ClientRequestDTO;
-import com.vrsoftware.gerenciadorDeVendas.dto.ClientResponseDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.client.ClientRequestDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.client.ClientResponseDTO;
 import com.vrsoftware.gerenciadorDeVendas.entity.ClientEntity;
 import com.vrsoftware.gerenciadorDeVendas.mapper.ClientMapper;
 import com.vrsoftware.gerenciadorDeVendas.service.ClientService;

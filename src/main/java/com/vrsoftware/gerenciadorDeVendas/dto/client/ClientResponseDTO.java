@@ -1,4 +1,4 @@
-package com.vrsoftware.gerenciadorDeVendas.dto;
+package com.vrsoftware.gerenciadorDeVendas.dto.client;
 
 import lombok.Data;
 
