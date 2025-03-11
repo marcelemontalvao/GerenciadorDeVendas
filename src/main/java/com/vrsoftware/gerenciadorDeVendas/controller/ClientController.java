@@ -1,6 +1,7 @@
 package com.vrsoftware.gerenciadorDeVendas.controller;
 
-import com.vrsoftware.gerenciadorDeVendas.dto.ClientDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.ClientRequestDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.ClientResponseDTO;
 import com.vrsoftware.gerenciadorDeVendas.entity.ClientEntity;
 import com.vrsoftware.gerenciadorDeVendas.mapper.ClientMapper;
 import com.vrsoftware.gerenciadorDeVendas.service.ClientService;
@@ -22,26 +23,26 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientDTO> createClient(@Valid @RequestBody ClientDTO clientDTO) {
-        ClientEntity clientEntity = clientMapper.toEntity(clientDTO);
+    public ResponseEntity<ClientResponseDTO> createClient(@Valid @RequestBody ClientRequestDTO clientRequestDTO) {
+        ClientEntity clientEntity = clientMapper.toEntity(clientRequestDTO);
         ClientEntity clientCreated = clientService.createClient(clientEntity);
-        ClientDTO clientDTOCreated = clientMapper.toDTO(clientCreated);
-        return new ResponseEntity<>(clientDTOCreated, HttpStatus.CREATED);
+        ClientResponseDTO clientResponseDTOCreated = clientMapper.toDTO(clientCreated);
+        return new ResponseEntity<>(clientResponseDTOCreated, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<ClientDTO>> listClient() {
+    public ResponseEntity<List<ClientResponseDTO>> listClient() {
         List<ClientEntity> clients = clientService.listClient();
-        List<ClientDTO> clientDTOCreated = clientMapper.toDTOList(clients);
-        return new ResponseEntity<>(clientDTOCreated, HttpStatus.OK);
+        List<ClientResponseDTO> clientResponseDTOCreated = clientMapper.toDTOList(clients);
+        return new ResponseEntity<>(clientResponseDTOCreated, HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<ClientDTO> updateClient(@Valid @RequestBody ClientDTO clientDTO) {
-        ClientEntity clientEntity = clientMapper.toEntity(clientDTO);
-        ClientEntity clientUpdate = clientService.updateClient(clientEntity);
-        ClientDTO clientDTOCreated = clientMapper.toDTO(clientUpdate);
-        return new ResponseEntity<>(clientDTOCreated, HttpStatus.OK);
+    @PutMapping("{id}")
+    public ResponseEntity<ClientResponseDTO> updateClient(@PathVariable("id") Long id, @Valid @RequestBody ClientRequestDTO clientRequestDTO) {
+        ClientEntity clientEntity = clientMapper.toEntity(clientRequestDTO);
+        ClientEntity clientUpdate = clientService.updateClient(id, clientEntity);
+        ClientResponseDTO clientResponseDTOCreated = clientMapper.toDTO(clientUpdate);
+        return new ResponseEntity<>(clientResponseDTOCreated, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")

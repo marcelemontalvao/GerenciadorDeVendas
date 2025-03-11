@@ -1,4 +1,5 @@
 package com.vrsoftware.gerenciadorDeVendas.dto;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -6,9 +7,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class ClientDTO {
-
-    private Long id;
+public class ClientRequestDTO {
 
     @NotBlank(message = "O nome do cliente é obrigatório.")
     private String nome;
@@ -23,5 +22,4 @@ public class ClientDTO {
     @Max(value = 31, message = "O dia de fechamento não pode ser maior que 31.")
     @JsonProperty("dia_fechamento")
     private Integer diaFechamento;
-
 }
