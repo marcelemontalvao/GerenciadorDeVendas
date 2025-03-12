@@ -10,6 +10,7 @@ import java.util.List;
 
 @Data
 public class SalesResponseDTO {
+    private Long id;
     private Long clientId;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataVenda;

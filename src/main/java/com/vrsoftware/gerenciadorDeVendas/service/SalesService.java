@@ -115,6 +115,7 @@ public class SalesService {
 
     public SalesResponseDTO convertToDTO(SalesEntity salesEntity) {
         SalesResponseDTO dto = new SalesResponseDTO();
+        dto.setId(salesEntity.getId());
         dto.setClientId(salesEntity.getCliente().getId());
         dto.setDataVenda(salesEntity.getDataVenda());
         dto.setTotal(salesEntity.getTotal());
