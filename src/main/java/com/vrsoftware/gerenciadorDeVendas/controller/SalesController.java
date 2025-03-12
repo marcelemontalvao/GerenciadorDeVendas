@@ -71,11 +71,11 @@ public class SalesController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{salesId}/itens/{productId}")
+    @DeleteMapping("/{salesId}/itens/{itemId}")
     public ResponseEntity<Void> removeProductFromSale(
             @PathVariable Long salesId,
-            @PathVariable Long productId) {
-        salesService.removeProductFromSale(salesId, productId);
+            @PathVariable Long itemId) {
+        salesService.removeItemFromSale(salesId, itemId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
