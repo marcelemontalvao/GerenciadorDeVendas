@@ -1,7 +1,7 @@
 package com.vrsoftware.gerenciadorDeVendas.controller;
 
-import com.vrsoftware.gerenciadorDeVendas.dto.SalesRequestDTO;
-import com.vrsoftware.gerenciadorDeVendas.dto.SalesResponseDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.sale.SalesRequestDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.sale.SalesResponseDTO;
 import com.vrsoftware.gerenciadorDeVendas.entity.ClientEntity;
 import com.vrsoftware.gerenciadorDeVendas.entity.ProductEntity;
 import com.vrsoftware.gerenciadorDeVendas.entity.SalesEntity;
@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/vendas")
@@ -72,11 +71,11 @@ public class SalesController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{salesId}/itens/{productId}")
+    @DeleteMapping("/{salesId}/itens/{itemId}")
     public ResponseEntity<Void> removeProductFromSale(
             @PathVariable Long salesId,
-            @PathVariable Long productId) {
-        salesService.removeProductFromSale(salesId, productId);
+            @PathVariable Long itemId) {
+        salesService.removeItemFromSale(salesId, itemId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

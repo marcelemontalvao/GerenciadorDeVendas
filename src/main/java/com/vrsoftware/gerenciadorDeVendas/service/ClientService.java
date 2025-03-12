@@ -3,6 +3,7 @@ package com.vrsoftware.gerenciadorDeVendas.service;
 import com.vrsoftware.gerenciadorDeVendas.entity.ClientEntity;
 import com.vrsoftware.gerenciadorDeVendas.exception.ClientNotFoundException;
 import com.vrsoftware.gerenciadorDeVendas.repository.ClientRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -27,11 +28,11 @@ public class ClientService {
         return clientRepository.findAll(sort);
     }
 
-    public ClientEntity updateClient(ClientEntity client) throws ClientNotFoundException {
-        if(!clientRepository.existsById(client.getId())) {
-            throw new ClientNotFoundException();
-        }
-       return clientRepository.save(client);
+    public ClientEntity updateClient(Long id, ClientEntity updatedClient) throws ClientNotFoundException {
+        ClientEntity clientEntity = clientRepository.findById(id)
+                .orElseThrow(ClientNotFoundException::new);
+        BeanUtils.copyProperties(updatedClient, clientEntity, "id");
+        return clientRepository.save(clientEntity);
     }
 
     public void deleteClient(Long id) throws ClientNotFoundException {

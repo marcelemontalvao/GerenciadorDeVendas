@@ -1,8 +1,8 @@
 package com.vrsoftware.gerenciadorDeVendas.service;
 
-import com.vrsoftware.gerenciadorDeVendas.dto.SalesItemDTO;
-import com.vrsoftware.gerenciadorDeVendas.dto.SalesRequestDTO;
-import com.vrsoftware.gerenciadorDeVendas.dto.SalesResponseDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.saleItem.SalesItemDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.sale.SalesRequestDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.sale.SalesResponseDTO;
 import com.vrsoftware.gerenciadorDeVendas.entity.ClientEntity;
 import com.vrsoftware.gerenciadorDeVendas.entity.ProductEntity;
 import com.vrsoftware.gerenciadorDeVendas.entity.SalesEntity;
@@ -10,6 +10,7 @@ import com.vrsoftware.gerenciadorDeVendas.entity.SalesItemEntity;
 import com.vrsoftware.gerenciadorDeVendas.exception.ProductNotFoundException;
 import com.vrsoftware.gerenciadorDeVendas.repository.ClientRepository;
 import com.vrsoftware.gerenciadorDeVendas.repository.ProductRepository;
+import com.vrsoftware.gerenciadorDeVendas.repository.SalesItemRepository;
 import com.vrsoftware.gerenciadorDeVendas.repository.SalesRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -25,11 +26,13 @@ public class SalesService {
     private final SalesRepository salesRepository;
     private final ProductRepository productRepository;
     private final ClientRepository clientRepository;
+    private final SalesItemRepository salesItemRepository;
 
-    public SalesService(SalesRepository salesRepository, ProductRepository productRepository, ClientRepository clientRepository) {
+    public SalesService(SalesRepository salesRepository, ProductRepository productRepository, ClientRepository clientRepository, SalesItemRepository salesItemRepository) {
         this.salesRepository = salesRepository;
         this.productRepository = productRepository;
         this.clientRepository = clientRepository;
+        this.salesItemRepository = salesItemRepository;
     }
 
     public SalesEntity createSales(SalesRequestDTO sell) {
@@ -115,6 +118,7 @@ public class SalesService {
 
     public SalesResponseDTO convertToDTO(SalesEntity salesEntity) {
         SalesResponseDTO dto = new SalesResponseDTO();
+        dto.setId(salesEntity.getId());
         dto.setClientId(salesEntity.getCliente().getId());
         dto.setDataVenda(salesEntity.getDataVenda());
         dto.setTotal(salesEntity.getTotal());
@@ -158,25 +162,20 @@ public class SalesService {
     }
 
     @Transactional
-    public void removeProductFromSale(Long salesId, Long productId) {
+    public void removeItemFromSale(Long salesId, Long itemId) {
         SalesEntity sales = salesRepository.findById(salesId)
                 .orElseThrow(() -> new EntityNotFoundException("Venda não encontrada"));
 
-        SalesItemEntity itemToRemove = null;
-        for (SalesItemEntity item : sales.getItens()) {
-            if (item.getProduto().getId().equals(productId)) {
-                itemToRemove = item;
-                break;
-            }
-        }
+        SalesItemEntity itemToRemove = sales.getItens().stream()
+                .filter(item -> item.getId().equals(itemId))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Item não encontrado na venda"));
 
-        if (itemToRemove != null) {
-            sales.getItens().remove(itemToRemove);
+        sales.getItens().remove(itemToRemove);
+        salesRepository.save(sales);
 
-            salesRepository.save(sales);
-        } else {
-            throw new EntityNotFoundException("Produto não encontrado na venda");
-        }
+        salesItemRepository.delete(itemToRemove);
+
     }
 
     public SalesEntity updateSales(SalesEntity sales, SalesRequestDTO updatedSell) {

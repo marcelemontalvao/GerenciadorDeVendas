@@ -1,6 +1,7 @@
 package com.vrsoftware.gerenciadorDeVendas.controller;
 
-import com.vrsoftware.gerenciadorDeVendas.dto.ProductDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.product.ProductRequestDTO;
+import com.vrsoftware.gerenciadorDeVendas.dto.product.ProductResponseDTO;
 import com.vrsoftware.gerenciadorDeVendas.entity.ProductEntity;
 import com.vrsoftware.gerenciadorDeVendas.mapper.ProductMapper;
 import com.vrsoftware.gerenciadorDeVendas.service.ProductService;
@@ -23,26 +24,26 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
-        ProductEntity productEntity = productMapper.toEntity(productDTO);
+    public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO) {
+        ProductEntity productEntity = productMapper.toEntity(productRequestDTO);
         ProductEntity productCreated = productService.createProduct(productEntity);
-        ProductDTO productDTOCreated = productMapper.toDTO(productCreated);
-        return new ResponseEntity<>(productDTOCreated, HttpStatus.CREATED);
+        ProductResponseDTO productResponseDTOCreated = productMapper.toDTO(productCreated);
+        return new ResponseEntity<>(productResponseDTOCreated, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> listProduct() {
+    public ResponseEntity<List<ProductResponseDTO>> listProduct() {
         List<ProductEntity> products = productService.listProduct();
-        List<ProductDTO> productDTOCreated = productMapper.toDTOList(products);
-        return new ResponseEntity<>(productDTOCreated, HttpStatus.OK);
+        List<ProductResponseDTO> productResponseDTOCreated = productMapper.toDTOList(products);
+        return new ResponseEntity<>(productResponseDTOCreated, HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<ProductDTO> updateProduct(@Valid @RequestBody ProductDTO productDTO) {
-        ProductEntity productEntity = productMapper.toEntity(productDTO);
-        ProductEntity productUpdate = productService.updateProduct(productEntity);
-        ProductDTO productDTOCreated = productMapper.toDTO(productUpdate);
-        return new ResponseEntity<>(productDTOCreated, HttpStatus.OK);
+    @PutMapping("{id}")
+    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable("id") Long id, @Valid @RequestBody ProductRequestDTO productRequestDTO) {
+        ProductEntity productEntity = productMapper.toEntity(productRequestDTO);
+        ProductEntity productUpdate = productService.updateProduct(id, productEntity);
+        ProductResponseDTO productResponseDTOCreated = productMapper.toDTO(productUpdate);
+        return new ResponseEntity<>(productResponseDTOCreated, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
